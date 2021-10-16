@@ -10,7 +10,7 @@
   "layer": [
     {
       "data": {
-        "url": "states-10m.json",
+        "url": "https://raw.githubusercontent.com/TianyuNiu213/FIT3179Ass2/main/states-10m.json",
         "format": {
           "type": "topojson",
           "feature": "states"
@@ -27,7 +27,7 @@
     },
     {
       "data": {
-        "url": "usa_earthquake.csv"
+        "url": "https://raw.githubusercontent.com/TianyuNiu213/FIT3179Ass2/main/usa_earthquake.csv"
       },
       "params": [
         {
