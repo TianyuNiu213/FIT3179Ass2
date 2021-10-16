@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+    <style>
+        body {
+            margin: 0 10%;
+        }
+
+        h1 {
+            width: 1200px;
+            text-align: center;
+            background-color: #393E46;
+            color: white;
+            padding: 10px;
+        }
+
+        #map,
+        #bar {
+            margin: 20px;
+            border: 1px solid lightgray;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>USA Earthquake</h1>
+    <div id="map"> </div>
+
+    <div id="bar"></div>
+
+    <script>
+        vegaEmbed("#map", "map.json");
+        vegaEmbed("#bar", "bar.json");
+    </script>
+</body>
+
+</html>
