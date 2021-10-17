@@ -1,12 +1,29 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 1000,
-  "height": 800,
+  "width": 1065,
+  "height": 700,
   "title": {
-    "text": "Geographical distribution of earthquakes in the United States (2011-2021)",
-    "align": "center",
-    "fontSize": 25
+    "text": [
+      "Earthquakes of Magnitude Larger Than 4",
+      "in Australia From 1980 to 2020"
+    ],
+    "fontSize": 16,
+    "baseline": "middle",
+    "lineHeight": 20
   },
+  "params": [
+    {
+      "name": "mag_selection",
+      "value": null,
+      "bind": {
+        "input": "range",
+        "min": 4,
+        "max": 7,
+        "step": 0.5,
+        "name": "Magnitude Larger than: "
+      }
+    }
+  ],
   "layer": [
     {
       "data": {
@@ -19,116 +36,66 @@
       "projection": {
         "type": "albersUsa"
       },
+
       "mark": {
         "type": "geoshape",
-        "fill": "#EEEEEE",
-        "stroke": "white"
+        "fill": "lightgray",
+        "stroke": "white",
+        "tooltip": true
       }
     },
     {
       "data": {
         "url": "https://raw.githubusercontent.com/TianyuNiu213/FIT3179Ass2/main/usa_earthquake.csv"
       },
-      "params": [
-        {
-          "name": "magType_select",
-          "select": { "type": "point", "fields": ["magType"] },
-          "bind": {
-            "input": "select",
-            "options": [
-              null,
-              "mb",
-              "md",
-              "mh",
-              "ml",
-              "mlg",
-              "mlr",
-              "mw",
-              "mwb",
-              "mwc",
-              "mwr",
-              "mww"
-            ],
-            "labels": [
-              "Show All",
-              "mb",
-              "md",
-              "mh",
-              "ml",
-              "mlg",
-              "mlr",
-              "mw",
-              "mwb",
-              "mwc",
-              "mwr",
-              "mww"
-            ]
-          }
-        },
 
-        {
-          "name": "mag_range",
-          "select": { "type": "interval", "fields": ["mag"] },
-          "bind": {
-            "input": "range",
-            "min": 0,
-            "max": 10,
-            "step": 0.2
-          }
-        },
-        {
-          "name": "grid",
-          "select": "interval",
-          "bind": "scales"
-        }
-      ],
-
-      "transform": [
-        { "filter": { "param": "magType_select" } },
-        { "filter": { "param": "mag_range" } },
-        {
-          "calculate": "1",
-          "as": "Number_of_Records"
-        }
-      ],
-      "projection": {
-        "type": "albersUsa"
+      "transform": [{ "filter": "datum.mag>=mag_selection" }],
+      "mark": {
+        "type": "circle",
+        "tooltip": { "content": "data" },
+        "size": { "expr": "size" }
       },
-      "mark": "circle",
       "encoding": {
-        "longitude": {
-          "field": "longitude",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "latitude",
-          "type": "quantitative"
-        },
-        "size": {
-          "aggregate": "mean",
-          "field": "mag",
-          "type": "quantitative"
-        },
-        "fill": {
-          "value": "#D72323"
-        },
-        "stroke": {
-          "value": "white"
-        },
-        "strokeWidth": {
-          "value": 0.5
-        },
-        "fillOpacity": {
-          "value": 0.4
-        },
-
+        "longitude": { "field": "longitude", "type": "quantitative" },
+        "latitude": { "field": "latitude", "type": "quantitative" },
         "tooltip": [
           {
+            "field": "year",
+            "type": "temporal",
+            "timeUnit": "year",
+            "title": "Year"
+          },
+          { "field": "place", "type": "nominal", "title": "State Name" },
+          {
             "field": "mag",
-            "type": "quantitative"
+            "type": "quantitative",
+            "title": "Magnitude",
+            "format": ","
+          },
+          { "field": "depth", "type": "quantitative", "title": "Depth" }
+        ],
+        "color": {
+          "field": "mag",
+          "type": "quantitative",
+          "title": "Magnitude",
+          "scale": {
+            "type": "threshold",
+            "domain": [5, 6],
+            "range": ["#ffaf7a", "#FF8C00", "#de2d26"]
           }
-        ]
+        },
+        "size": {
+          "field": "depth",
+          "type": "quantitative",
+          "title": "Annual Global Deaths",
+          "legend": { "clipHeight": 30 },
+          "scale": {
+            "type": "linear",
+            "range": [400, 2000]
+          }
+        }
       }
     }
-  ]
+  ],
+  "config": {}
 }
